@@ -109,6 +109,7 @@ class _AddEditServicePageState extends State<AddEditServicePage> {
                   controller: _priceController,
                   decoration: const InputDecoration(labelText: 'Fiyat (TL)'),
                   keyboardType: TextInputType.number,
+                  // TODO: Harf girmeyi engelle
                   validator: (value) =>
                       value!.isEmpty ? 'Bu alan boş bırakılamaz' : null,
                 ),
