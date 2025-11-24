@@ -1,3 +1,4 @@
+import 'package:beauty_center/features/customer/presentation/pages/customer_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
@@ -25,7 +26,7 @@ class _HomePageState extends State<HomePage> {
     // Temel sayfalar
     _widgetOptions = <Widget>[
       const Center(child: Text('Randevular Sayfası')),
-      const Center(child: Text('Müşteriler Sayfası')),
+      const CustomerListPage(),
       const Center(child: Text('Profil/Ayarlar Sayfası')),
     ];
 

@@ -1,5 +1,13 @@
 import 'package:beauty_center/features/auth/domain/usecases/signout_user.dart';
 import 'package:beauty_center/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:beauty_center/features/customer/data/datasources/customer_remote_data_source.dart';
+import 'package:beauty_center/features/customer/data/repositories/customer_repository_impl.dart';
+import 'package:beauty_center/features/customer/domain/repositories/customer_repository.dart';
+import 'package:beauty_center/features/customer/domain/usecases/add_customer.dart';
+import 'package:beauty_center/features/customer/domain/usecases/delete_customer.dart';
+import 'package:beauty_center/features/customer/domain/usecases/get_customers.dart';
+import 'package:beauty_center/features/customer/domain/usecases/update_customer.dart';
+import 'package:beauty_center/features/customer/presentation/bloc/customer_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -78,6 +86,37 @@ Future<void> init() async {
   // Data Sources
   sl.registerLazySingleton<ServiceRemoteDataSource>(
     () => ServiceRemoteDataSourceImpl(firestore: sl()),
+  );
+
+  // ##################################################################
+  // #                      FEATURES - CUSTOMER                       #
+  // ##################################################################
+
+  // BLoC
+
+  sl.registerFactory(
+    () => CustomerBloc(
+      getCustomers: sl(),
+      addCustomer: sl(),
+      updateCustomer: sl(),
+      deleteCustomer: sl(),
+    ),
+  );
+
+  // Use Cases
+  sl.registerLazySingleton(() => GetCustomers(sl()));
+  sl.registerLazySingleton(() => AddCustomer(sl()));
+  sl.registerLazySingleton(() => UpdateCustomer(sl()));
+  sl.registerLazySingleton(() => DeleteCustomer(sl()));
+
+  // Repository
+  sl.registerLazySingleton<CustomerRepository>(
+    () => CustomerRepositoryImpl(remoteDataSource: sl()),
+  );
+
+  // Data Sources
+  sl.registerLazySingleton<CustomerRemoteDataSource>(
+    () => CustomerRemoteDataSourceImpl(firestore: sl()),
   );
 
   // ##################################################################
